@@ -1,0 +1,5 @@
+oci==2.53.1
+stringcase==1.2.0
+Jinja2==3.0.3
+psycopg2-binary==2.9.2
+python-dotenv==0.19.2
