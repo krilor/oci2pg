@@ -6,7 +6,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import oci
-config = oci.config.from_file() # ~/.oci/config - fall back to evironment variable OCI_CONFIG_FILE
+# oci.config.from_file falls back to OCI_CONFIG_FILE env var if default location does not exist.
+# we want to give the env var precedence, so we need to specify it in the call
+config = oci.config.from_file(os.getenv("OCI_CONFIG_FILE", oci.config.DEFAULT_LOCATION))
 
 # clients
 identity = oci.identity.IdentityClient(config)

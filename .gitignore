@@ -102,3 +102,8 @@ venv.bak/
 
 # mypy
 dmypy.json
+
+# terraform
+!.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
