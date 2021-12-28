@@ -58,13 +58,16 @@ resource "oci_identity_policy" "oci2pg" {
   description    = "Policies for oci2pg"
   name           = "oci2pg"
   statements = [
+    # Stream
+    "Allow group ${oci_identity_group.oci2pg.name} to use stream-pull in tenancy where target.streampool.id = '${oci_streaming_stream_pool.oci2pg.id}'",
+    # Read Access
     "Allow group ${oci_identity_group.oci2pg.name} to read instance-family in tenancy",
     "Allow group ${oci_identity_group.oci2pg.name} to read virtual-network-family in tenancy",
   ]
 }
 
 #
-## Template config file
+## Local user config
 #
 resource "local_file" "oci2pg_api_key" {
   content              = tls_private_key.oci2pg.private_key_pem
@@ -87,4 +90,42 @@ resource "local_file" "ociconfig" {
   filename             = pathexpand("~/.oci2pg/config")
   file_permission      = "0750"
   directory_permission = "0640"
+}
+
+#
+## Stream
+#
+
+resource "oci_streaming_stream_pool" "oci2pg" {
+  compartment_id = local.tenancy_ocid
+  name           = "oci2pg"
+}
+
+resource "oci_streaming_stream" "oci2pg" {
+  name               = "oci2pg"
+  partitions         = 1
+  retention_in_hours = 24 # 24-168h
+  stream_pool_id     = oci_streaming_stream_pool.oci2pg.id
+}
+
+#
+## Events
+#
+resource "oci_events_rule" "oci2pg" {
+  description = "oci2pg"
+
+  actions {
+    actions {
+      description = "oci2pg Stream"
+      action_type = "OSS" # Oracle Streaming Service
+      is_enabled  = true
+
+      stream_id = oci_streaming_stream.oci2pg.id
+    }
+  }
+  compartment_id = local.tenancy_ocid
+
+  condition    = "{}" # FIXME - this matches all the things!
+  display_name = "oci2pg"
+  is_enabled   = true
 }
