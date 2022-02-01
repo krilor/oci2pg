@@ -17,13 +17,16 @@ This project uses the [just](https://github.com/casey/just) command runner.
 
 ```bash
 # spin up a postgres docker container
-make pg
+just pg
 
 # add tables and views
-make up
+just up
+
+# set up dotenv file - change the vars to fit your setup
+cp .env.sample .env
 
 # run the oci2pg tool
-OCI2PG_PASSWORD=123 ./oci2pg.py
+./oci2pg.py
 ```
 
 ## Requirements

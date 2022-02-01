@@ -1,7 +1,7 @@
 
 # connect to the postgres database
 connect:
-  psql -d oci -U oci
+  psql -h localhost -p 5432 -d oci -U oci
 
 # generate table ddl
 ddl:
