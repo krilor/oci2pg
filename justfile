@@ -25,3 +25,7 @@ atlas-inspect:
 
 atlas-up:
   atlas schema apply -d "postgres://oci:123@localhost:5432/oci?sslmode=disable" --file atlas/schema.hcl
+
+# unit test
+test:
+  python3 -m unittest discover -p '*_test.py' -v
