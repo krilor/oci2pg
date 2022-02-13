@@ -60,5 +60,6 @@ class DB(metaclass=Singleton):
         return
 
     def close(self):
+        logging.info("Closing database")
         self.conn.close()
         delattr(self, "conn")

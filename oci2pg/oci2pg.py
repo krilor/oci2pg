@@ -17,10 +17,6 @@ version = "0.0.1"
 
 
 def bulk():
-    # logging
-    logging.basicConfig(
-        format="%(levelname)s %(asctime)s %(message)s", level=logging.INFO
-    )
     logging.info("Starting oci2pg version %s" % version)
     # oci.config.from_file falls back to OCI_CONFIG_FILE env var if default location does not exist.
     # we want to give the env var precedence, so we need to specify it in the call
@@ -140,5 +136,15 @@ def sync():
 
 
 def main():
-    bulk()
-    sync()
+    # logging
+    logging.basicConfig(
+        format="%(levelname)s %(asctime)s %(message)s", level=logging.INFO
+    )
+
+    try:
+        bulk()
+        sync()
+    except KeyboardInterrupt:
+        logging.warn("Recieved Keyboard Interrupt!")
+    finally:
+        DB().close()

@@ -1,8 +1,7 @@
-from .db import hello
+# from .db import hello
 
 import unittest
 
-
-class TestHello(unittest.TestCase):
-    def test_world(self):
-        self.assertEqual("world", hello())
+# class TestHello(unittest.TestCase):
+#     def test_world(self):
+#         self.assertEqual("world", hello())
