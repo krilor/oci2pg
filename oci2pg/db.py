@@ -10,6 +10,7 @@ import logging
 
 from oci.util import to_dict
 
+
 class DB(metaclass=Singleton):
 
     __state = {}
@@ -28,17 +29,33 @@ class DB(metaclass=Singleton):
             )
             self.conn.autocommit = True
 
-
     def upsert(self, table, resource):
-        logging.info("Insert %s - %s" % (table, getattr(resource, 'display_name', getattr(resource, 'name', getattr(resource, 'id')))))
+        logging.info(
+            "Insert %s - %s"
+            % (
+                table,
+                getattr(
+                    resource,
+                    "display_name",
+                    getattr(resource, "name", getattr(resource, "id")),
+                ),
+            )
+        )
 
         with self.conn.cursor() as cur:
 
-            columns=sorted(resource.swagger_types)
-            values=tuple(to_dict(getattr(resource,column)) for column in columns)
-            statement="INSERT into %s ( %s ) VALUES ( %s ) ON CONFLICT (id) DO NOTHING" % ( table, ",".join(columns), ",".join(["%s" for i in range(len(columns))]) )
+            columns = sorted(resource.swagger_types)
+            values = tuple(to_dict(getattr(resource, column)) for column in columns)
+            statement = (
+                "INSERT into %s ( %s ) VALUES ( %s ) ON CONFLICT (id) DO NOTHING"
+                % (
+                    table,
+                    ",".join(columns),
+                    ",".join(["%s" for i in range(len(columns))]),
+                )
+            )
 
-            cur.execute(statement,values)
+            cur.execute(statement, values)
 
         return
 

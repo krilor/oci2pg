@@ -6,23 +6,23 @@ import jinja2
 oci_resources = {
     "identity_compartment": oci.identity.models.Compartment().swagger_types,
     "core_instance": oci.core.models.Instance().swagger_types,
-    "core_vnic_attachment" : oci.core.models.VnicAttachment().swagger_types,
+    "core_vnic_attachment": oci.core.models.VnicAttachment().swagger_types,
     "core_vnic": oci.core.models.Vnic().swagger_types,
     "core_subnet": oci.core.models.Subnet().swagger_types,
     "core_image": oci.core.models.Image().swagger_types,
     "core_vcn": oci.core.models.Vcn().swagger_types,
-    "core_subnet": oci.core.models.Subnet().swagger_types
+    "core_subnet": oci.core.models.Subnet().swagger_types,
 }
 
 # return the postgres type from the swagger type
 def pg_type(t):
     return {
-        "bool" : "boolean",
-        "datetime" : "timestamp",
-        "int" : "integer",
-        "str" : "text",
-        "list[str]": "text[]"
-    }.get(t.lower(),"JSON")
+        "bool": "boolean",
+        "datetime": "timestamp",
+        "int": "integer",
+        "str": "text",
+        "list[str]": "text[]",
+    }.get(t.lower(), "JSON")
 
 
 #
@@ -36,6 +36,6 @@ with open("sql/pg-ddl.sql", "w+") as file:
         template.render(
             resources=oci_resources,
             # functions
-            convert_type=pg_type
+            convert_type=pg_type,
         )
     )

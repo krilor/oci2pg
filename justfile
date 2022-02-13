@@ -29,3 +29,8 @@ atlas-up:
 # unit test
 test:
   python3 -m unittest discover -p '*_test.py' -v
+
+# format all-the-code
+fmt:
+  black .
+  cd terraform && terraform fmt
