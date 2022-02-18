@@ -47,15 +47,19 @@ class DB(metaclass=Singleton):
             columns = sorted(resource.swagger_types)
             values = tuple(to_dict(getattr(resource, column)) for column in columns)
             statement = (
-                "INSERT into %s ( %s ) VALUES ( %s ) ON CONFLICT (id) DO NOTHING"
+                "INSERT into %s ( %s ) VALUES ( %s ) ON CONFLICT (id) DO UPDATE SET %s WHERE (%s) IS DISTINCT FROM (%s)"
                 % (
                     table,
-                    ",".join(columns),
-                    ",".join(["%s" for i in range(len(columns))]),
+                    ", ".join(columns),
+                    ", ".join(["%s" for i in range(len(columns))]),
+                    ", ".join( "%s=EXCLUDED.%s" % (c,c) for c in columns),
+                    ", ".join( "%s.%s" % (table, c) for c in columns),
+                    ", ".join( "EXCLUDED.%s" % c for c in columns)
                 )
             )
-
+            logging.debug("SQL statement : %s" % statement)
             cur.execute(statement, values)
+            logging.debug("Returned rowcount : %d" % cur.rowcount)
 
         return
 
