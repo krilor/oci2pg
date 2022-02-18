@@ -22,7 +22,7 @@ def pg_type(t):
         "int": "integer",
         "str": "text",
         "list[str]": "text[]",
-    }.get(t.lower(), "JSON")
+    }.get(t.lower(), "jsonb")
 
 
 #

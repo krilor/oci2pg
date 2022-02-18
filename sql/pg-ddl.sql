@@ -3,9 +3,9 @@
 
 CREATE TABLE IF NOT EXISTS identity_compartment (
   compartment_id text, -- str
-  defined_tags JSON, -- dict(str, dict(str, object))
+  defined_tags jsonb, -- dict(str, dict(str, object))
   description text, -- str
-  freeform_tags JSON, -- dict(str, str)
+  freeform_tags jsonb, -- dict(str, str)
   id text PRIMARY KEY, -- str
   inactive_status integer, -- int
   is_accessible boolean, -- bool
@@ -17,32 +17,32 @@ CREATE TABLE IF NOT EXISTS identity_compartment (
 -- core_instance
 
 CREATE TABLE IF NOT EXISTS core_instance (
-  agent_config JSON, -- InstanceAgentConfig
-  availability_config JSON, -- InstanceAvailabilityConfig
+  agent_config jsonb, -- InstanceAgentConfig
+  availability_config jsonb, -- InstanceAvailabilityConfig
   availability_domain text, -- str
   capacity_reservation_id text, -- str
   compartment_id text, -- str
   dedicated_vm_host_id text, -- str
-  defined_tags JSON, -- dict(str, dict(str, object))
+  defined_tags jsonb, -- dict(str, dict(str, object))
   display_name text, -- str
-  extended_metadata JSON, -- dict(str, object)
+  extended_metadata jsonb, -- dict(str, object)
   fault_domain text, -- str
-  freeform_tags JSON, -- dict(str, str)
+  freeform_tags jsonb, -- dict(str, str)
   id text PRIMARY KEY, -- str
   image_id text, -- str
-  instance_options JSON, -- InstanceOptions
+  instance_options jsonb, -- InstanceOptions
   ipxe_script text, -- str
   launch_mode text, -- str
-  launch_options JSON, -- LaunchOptions
+  launch_options jsonb, -- LaunchOptions
   lifecycle_state text, -- str
-  metadata JSON, -- dict(str, str)
-  platform_config JSON, -- PlatformConfig
-  preemptible_instance_config JSON, -- PreemptibleInstanceConfigDetails
+  metadata jsonb, -- dict(str, str)
+  platform_config jsonb, -- PlatformConfig
+  preemptible_instance_config jsonb, -- PreemptibleInstanceConfigDetails
   region text, -- str
   shape text, -- str
-  shape_config JSON, -- InstanceShapeConfig
-  source_details JSON, -- InstanceSourceDetails
-  system_tags JSON, -- dict(str, dict(str, object))
+  shape_config jsonb, -- InstanceShapeConfig
+  source_details jsonb, -- InstanceSourceDetails
+  system_tags jsonb, -- dict(str, dict(str, object))
   time_created timestamp, -- datetime
   time_maintenance_reboot_due timestamp -- datetime
 );
@@ -69,9 +69,9 @@ CREATE TABLE IF NOT EXISTS core_vnic_attachment (
 CREATE TABLE IF NOT EXISTS core_vnic (
   availability_domain text, -- str
   compartment_id text, -- str
-  defined_tags JSON, -- dict(str, dict(str, object))
+  defined_tags jsonb, -- dict(str, dict(str, object))
   display_name text, -- str
-  freeform_tags JSON, -- dict(str, str)
+  freeform_tags jsonb, -- dict(str, str)
   hostname_label text, -- str
   id text PRIMARY KEY, -- str
   is_primary boolean, -- bool
@@ -92,11 +92,11 @@ CREATE TABLE IF NOT EXISTS core_subnet (
   availability_domain text, -- str
   cidr_block text, -- str
   compartment_id text, -- str
-  defined_tags JSON, -- dict(str, dict(str, object))
+  defined_tags jsonb, -- dict(str, dict(str, object))
   dhcp_options_id text, -- str
   display_name text, -- str
   dns_label text, -- str
-  freeform_tags JSON, -- dict(str, str)
+  freeform_tags jsonb, -- dict(str, str)
   id text PRIMARY KEY, -- str
   ipv6_cidr_block text, -- str
   ipv6_virtual_router_ip text, -- str
@@ -115,17 +115,17 @@ CREATE TABLE IF NOT EXISTS core_subnet (
 -- core_image
 
 CREATE TABLE IF NOT EXISTS core_image (
-  agent_features JSON, -- InstanceAgentFeatures
+  agent_features jsonb, -- InstanceAgentFeatures
   base_image_id text, -- str
   billable_size_in_gbs integer, -- int
   compartment_id text, -- str
   create_image_allowed boolean, -- bool
-  defined_tags JSON, -- dict(str, dict(str, object))
+  defined_tags jsonb, -- dict(str, dict(str, object))
   display_name text, -- str
-  freeform_tags JSON, -- dict(str, str)
+  freeform_tags jsonb, -- dict(str, str)
   id text PRIMARY KEY, -- str
   launch_mode text, -- str
-  launch_options JSON, -- LaunchOptions
+  launch_options jsonb, -- LaunchOptions
   lifecycle_state text, -- str
   listing_type text, -- str
   operating_system text, -- str
@@ -143,10 +143,10 @@ CREATE TABLE IF NOT EXISTS core_vcn (
   default_dhcp_options_id text, -- str
   default_route_table_id text, -- str
   default_security_list_id text, -- str
-  defined_tags JSON, -- dict(str, dict(str, object))
+  defined_tags jsonb, -- dict(str, dict(str, object))
   display_name text, -- str
   dns_label text, -- str
-  freeform_tags JSON, -- dict(str, str)
+  freeform_tags jsonb, -- dict(str, str)
   id text PRIMARY KEY, -- str
   ipv6_cidr_blocks text[], -- list[str]
   lifecycle_state text, -- str

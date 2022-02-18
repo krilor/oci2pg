@@ -2,7 +2,7 @@ table "core_image" {
   schema = schema.public
   column "agent_features" {
     null = true
-    type = json
+    type = jsonb
   }
   column "base_image_id" {
     null = true
@@ -22,7 +22,7 @@ table "core_image" {
   }
   column "defined_tags" {
     null = true
-    type = json
+    type = jsonb
   }
   column "display_name" {
     null = true
@@ -30,7 +30,7 @@ table "core_image" {
   }
   column "freeform_tags" {
     null = true
-    type = json
+    type = jsonb
   }
   column "id" {
     null = false
@@ -42,7 +42,7 @@ table "core_image" {
   }
   column "launch_options" {
     null = true
-    type = json
+    type = jsonb
   }
   column "lifecycle_state" {
     null = true
@@ -76,11 +76,11 @@ table "core_instance" {
   schema = schema.public
   column "agent_config" {
     null = true
-    type = json
+    type = jsonb
   }
   column "availability_config" {
     null = true
-    type = json
+    type = jsonb
   }
   column "availability_domain" {
     null = true
@@ -100,7 +100,7 @@ table "core_instance" {
   }
   column "defined_tags" {
     null = true
-    type = json
+    type = jsonb
   }
   column "display_name" {
     null = true
@@ -108,7 +108,7 @@ table "core_instance" {
   }
   column "extended_metadata" {
     null = true
-    type = json
+    type = jsonb
   }
   column "fault_domain" {
     null = true
@@ -116,7 +116,7 @@ table "core_instance" {
   }
   column "freeform_tags" {
     null = true
-    type = json
+    type = jsonb
   }
   column "id" {
     null = false
@@ -128,7 +128,7 @@ table "core_instance" {
   }
   column "instance_options" {
     null = true
-    type = json
+    type = jsonb
   }
   column "ipxe_script" {
     null = true
@@ -140,7 +140,7 @@ table "core_instance" {
   }
   column "launch_options" {
     null = true
-    type = json
+    type = jsonb
   }
   column "lifecycle_state" {
     null = true
@@ -148,15 +148,15 @@ table "core_instance" {
   }
   column "metadata" {
     null = true
-    type = json
+    type = jsonb
   }
   column "platform_config" {
     null = true
-    type = json
+    type = jsonb
   }
   column "preemptible_instance_config" {
     null = true
-    type = json
+    type = jsonb
   }
   column "region" {
     null = true
@@ -168,15 +168,15 @@ table "core_instance" {
   }
   column "shape_config" {
     null = true
-    type = json
+    type = jsonb
   }
   column "source_details" {
     null = true
-    type = json
+    type = jsonb
   }
   column "system_tags" {
     null = true
-    type = json
+    type = jsonb
   }
   column "time_created" {
     null = true
@@ -206,7 +206,7 @@ table "core_subnet" {
   }
   column "defined_tags" {
     null = true
-    type = json
+    type = jsonb
   }
   column "dhcp_options_id" {
     null = true
@@ -222,7 +222,7 @@ table "core_subnet" {
   }
   column "freeform_tags" {
     null = true
-    type = json
+    type = jsonb
   }
   column "id" {
     null = false
@@ -308,7 +308,7 @@ table "core_vcn" {
   }
   column "defined_tags" {
     null = true
-    type = json
+    type = jsonb
   }
   column "display_name" {
     null = true
@@ -320,7 +320,7 @@ table "core_vcn" {
   }
   column "freeform_tags" {
     null = true
-    type = json
+    type = jsonb
   }
   column "id" {
     null = false
@@ -358,7 +358,7 @@ table "core_vnic" {
   }
   column "defined_tags" {
     null = true
-    type = json
+    type = jsonb
   }
   column "display_name" {
     null = true
@@ -366,7 +366,7 @@ table "core_vnic" {
   }
   column "freeform_tags" {
     null = true
-    type = json
+    type = jsonb
   }
   column "hostname_label" {
     null = true
@@ -482,7 +482,7 @@ table "identity_compartment" {
   }
   column "defined_tags" {
     null = true
-    type = json
+    type = jsonb
   }
   column "description" {
     null = true
@@ -490,7 +490,7 @@ table "identity_compartment" {
   }
   column "freeform_tags" {
     null = true
-    type = json
+    type = jsonb
   }
   column "id" {
     null = false
