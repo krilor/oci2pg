@@ -1,5 +1,6 @@
 from .db import *
 import logging
+import argparse
 import oci
 
 import os
@@ -136,14 +137,44 @@ def sync():
 
 
 def main():
-    # logging
-    logging.basicConfig(
-        format="%(levelname)s %(asctime)s %(message)s", level=logging.INFO
+
+    log_levels = {
+        "warning" : logging.WARNING,
+        "info" : logging.INFO,
+        "debug" : logging.DEBUG
+    }
+    parser = argparse.ArgumentParser(description="Sync OCI resources to postgres.")
+    parser.add_argument(
+        "processes",
+        metavar="PROCESS",
+        type=str,
+        nargs="+",
+        choices=["bulk", "stream"],
+        help="the command to run: sync, stream",
+    )
+    parser.add_argument(
+        "--log",
+        "-log",
+        "-l",
+        default="warning",
+        choices=log_levels.keys(),
+        help="log level. Default: warning"
     )
 
+    args = parser.parse_args()
+
+    logging.basicConfig(
+        format="%(levelname)s %(asctime)s %(message)s", level=log_levels[args.log]
+    )
+
+
+
     try:
-        bulk()
-        sync()
+        if "bulk" in args.processes:
+            bulk()
+        if "stream" in args.processes:
+            sync()
+
     except KeyboardInterrupt:
         logging.warn("Recieved Keyboard Interrupt!")
     finally:
