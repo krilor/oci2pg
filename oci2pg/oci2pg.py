@@ -17,7 +17,7 @@ from .db import DB
 version = "0.0.1"
 
 
-def bulk():
+def bulk() -> None:
     logging.info("Starting oci2pg version %s" % version)
     # oci.config.from_file falls back to OCI_CONFIG_FILE env var if default location does not exist.
     # we want to give the env var precedence, so we need to specify it in the call
@@ -32,7 +32,7 @@ def bulk():
     compute = oci.core.ComputeClient(config)
     network = oci.core.VirtualNetworkClient(config)
 
-    db = DB()
+    db: DB = DB()
 
     compartments = identity.list_compartments(
         config["tenancy"], compartment_id_in_subtree=True
@@ -70,14 +70,16 @@ def bulk():
                 db.upsert("core_subnet", subnet)
 
 
-def update_instance(config, conn, id):
+def update_instance(config: Dict[str, Any], id: str) -> None:
     client = oci.core.ComputeClient(config)
     response = client.get_instance(id)
     db = DB()
     db.upsert("core_instance", response.data)
 
 
-def get_cursor_by_group(sc, sid, group_name, instance_name):
+def get_cursor_by_group(
+    sc: oci.streaming.StreamClient, sid: str, group_name: str, instance_name: str
+) -> str:
     print(
         " Creating a cursor for group {}, instance {}".format(group_name, instance_name)
     )
@@ -91,7 +93,7 @@ def get_cursor_by_group(sc, sid, group_name, instance_name):
     return response.data.value
 
 
-def sync():
+def sync() -> None:
     # oci.config.from_file falls back to OCI_CONFIG_FILE env var if default location does not exist.
     # we want to give the env var precedence, so we need to specify it in the call
     oci_config = oci.config.from_file(
@@ -99,7 +101,7 @@ def sync():
     )
 
     service_endpoint = os.getenv("OCI_STREAM_SERVICE_ENDPOINT")
-    stream_id = os.getenv("OCI_STREAM_ID")
+    stream_id = os.getenv("OCI_STREAM_ID", "")
 
     stream_client = oci.streaming.StreamClient(
         oci_config, service_endpoint=service_endpoint
@@ -124,7 +126,7 @@ def sync():
                 logging.info(
                     "Got {} event for resourceId {}".format(event_type, resource_id)
                 )
-                update_instance(resource_id)
+                update_instance(oci_config, resource_id)
 
         if num_recieved_messages == message_limit:
             logging.debug("Got a lot of messages. Getting more in 1 seconds.")
@@ -136,12 +138,12 @@ def sync():
         cursor = response.headers["opc-next-cursor"]
 
 
-def main():
+def main() -> None:
 
     log_levels = {
-        "warning" : logging.WARNING,
-        "info" : logging.INFO,
-        "debug" : logging.DEBUG
+        "warning": logging.WARNING,
+        "info": logging.INFO,
+        "debug": logging.DEBUG,
     }
     parser = argparse.ArgumentParser(description="Sync OCI resources to postgres.")
     parser.add_argument(
@@ -158,7 +160,7 @@ def main():
         "-l",
         default="warning",
         choices=log_levels.keys(),
-        help="log level. Default: warning"
+        help="log level. Default: warning",
     )
 
     args = parser.parse_args()
@@ -166,8 +168,6 @@ def main():
     logging.basicConfig(
         format="%(levelname)s %(asctime)s %(message)s", level=log_levels[args.log]
     )
-
-
 
     try:
         if "bulk" in args.processes:

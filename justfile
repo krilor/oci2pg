@@ -34,3 +34,6 @@ test:
 fmt:
   black .
   cd terraform && terraform fmt
+
+lint:
+  mypy --disallow-untyped-calls --disallow-untyped-defs --disallow-incomplete-defs oci2pg

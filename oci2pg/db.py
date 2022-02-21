@@ -1,3 +1,4 @@
+from typing import Dict, Any
 from .singleton import Singleton
 
 import psycopg2
@@ -10,12 +11,20 @@ import logging
 
 from oci.util import to_dict
 
+# quack!
+from typing import List
+from typing_extensions import Protocol
+
+
+class SwaggerTyped(Protocol):
+    swagger_types: List[str]
+
 
 class DB(metaclass=Singleton):
 
-    __state = {}
+    __state: Dict[str, Any] = {}
 
-    def __init__(self):
+    def __init__(self) -> None:
 
         self.__dict__ = self.__state
 
@@ -29,7 +38,7 @@ class DB(metaclass=Singleton):
             )
             self.conn.autocommit = True
 
-    def upsert(self, table, resource):
+    def upsert(self, table: str, resource: SwaggerTyped) -> None:
         logging.info(
             "Insert %s - %s"
             % (
@@ -52,9 +61,9 @@ class DB(metaclass=Singleton):
                     table,
                     ", ".join(columns),
                     ", ".join(["%s" for i in range(len(columns))]),
-                    ", ".join( "%s=EXCLUDED.%s" % (c,c) for c in columns),
-                    ", ".join( "%s.%s" % (table, c) for c in columns),
-                    ", ".join( "EXCLUDED.%s" % c for c in columns)
+                    ", ".join("%s=EXCLUDED.%s" % (c, c) for c in columns),
+                    ", ".join("%s.%s" % (table, c) for c in columns),
+                    ", ".join("EXCLUDED.%s" % c for c in columns),
                 )
             )
             logging.debug("SQL statement : %s" % statement)
@@ -63,7 +72,7 @@ class DB(metaclass=Singleton):
 
         return
 
-    def close(self):
+    def close(self) -> None:
         logging.info("Closing database")
         self.conn.close()
         delattr(self, "conn")
